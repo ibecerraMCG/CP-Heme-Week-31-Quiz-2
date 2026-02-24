@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week 31 Tuesday Practice Quiz</title>
+    <style>
+        /* --- CSS Variables & Themes --- */
+        :root {
+            /* Base Transition */
+            --transition-speed: 0.3s;
+            --font-main: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        /* 1. Modern Dark (Default) */
+        [data-theme="dark"] {
+            --bg-body: #1e293b;
+            --bg-card: #334155;
+            --bg-header: #0f172a;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --text-accent: #38bdf8;
+            --border-color: #475569;
+            --highlight-bg: #475569;
+            --button-bg: #38bdf8;
+            --button-text: #0f172a;
+            --button-hover: #0ea5e9;
+            --feedback-success-bg: #064e3b;
+            --feedback-success-border: #059669;
+            --feedback-success-text: #a7f3d0;
+            --feedback-error-bg: #7f1d1d;
+            --feedback-error-border: #dc2626;
+            --feedback-error-text: #fecaca;
+        }
+
+        /* 2. Modern Light */
+        [data-theme="light"] {
+            --bg-body: #f3f4f6;
+            --bg-card: #ffffff;
+            --bg-header: #ffffff;
+            --text-main: #1f2937;
+            --text-muted: #6b7280;
+            --text-accent: #2563eb;
+            --border-color: #e5e7eb;
+            --highlight-bg: #f3f4f6;
+            --button-bg: #2563eb;
+            --button-text: #ffffff;
+            --button-hover: #1d4ed8;
+            --feedback-success-bg: #ecfdf5;
+            --feedback-success-border: #34d399;
+            --feedback-success-text: #065f46;
+            --feedback-error-bg: #fef2f2;
+            --feedback-error-border: #f87171;
+            --feedback-error-text: #991b1b;
+        }
+
+        /* 3. Midnight (Pure Black) */
+        [data-theme="midnight"] {
+            --bg-body: #000000;
+            --bg-card: #000000;
+            --bg-header: #000000;
+            --text-main: #e0e0e0;
+            --text-muted: #888888;
+            --text-accent: #90caf9;
+            --border-color: #333333;
+            --highlight-bg: #1a1a1a;
+            --button-bg: #90caf9;
+            --button-text: #000000;
+            --button-hover: #42a5f5;
+            --feedback-success-bg: #051b11;
+            --feedback-success-border: #0f5132;
+            --feedback-success-text: #75b798;
+            --feedback-error-bg: #2c0b0e;
+            --feedback-error-border: #842029;
+            --feedback-error-text: #ea868f;
+        }
+
+        /* 4. Legacy Dark (Original) */
+        [data-theme="legacy-dark"] {
+            --bg-body: #2d343e;
+            --bg-card: #3c424f;
+            --bg-header: #3c424f;
+            --text-main: #e8e6e3;
+            --text-muted: #b0c4de;
+            --text-accent: #8ab4f8;
+            --border-color: #555;
+            --highlight-bg: #454c5a;
+            --button-bg: #8ab4f8;
+            --button-text: #202124;
+            --button-hover: #a3c5f9;
+            --feedback-success-bg: #344e41;
+            --feedback-success-border: #52b788;
+            --feedback-success-text: #c7f9cc;
+            --feedback-error-bg: #5e2129;
+            --feedback-error-border: #a4133c;
+            --feedback-error-text: #f8d7da;
+        }
+
+        /* 5. Sepia (Reading Mode) */
+        [data-theme="sepia"] {
+            --bg-body: #f4ecd8;
+            --bg-card: #fdf6e3;
+            --bg-header: #e4d5b7;
+            --text-main: #433422;
+            --text-muted: #7c6f5a;
+            --text-accent: #a05a2c;
+            --border-color: #d3c4a5;
+            --highlight-bg: #ebe1c9;
+            --button-bg: #a05a2c;
+            --button-text: #fdf6e3;
+            --button-hover: #864822;
+            --feedback-success-bg: #e6f4ea;
+            --feedback-success-border: #8ab893;
+            --feedback-success-text: #2e4c35;
+            --feedback-error-bg: #f9e3e3;
+            --feedback-error-border: #d48f8f;
+            --feedback-error-text: #5c2b2b;
+        }
+
+        /* 6. High Contrast */
+        [data-theme="contrast"] {
+            --bg-body: #000000;
+            --bg-card: #000000;
+            --bg-header: #000000;
+            --text-main: #ffffff;
+            --text-muted: #dddddd;
+            --text-accent: #ffff00;
+            --border-color: #ffffff;
+            --highlight-bg: #333333;
+            --button-bg: #ffff00;
+            --button-text: #000000;
+            --button-hover: #e6e600;
+            --feedback-success-bg: #000000;
+            --feedback-success-border: #00ff00;
+            --feedback-success-text: #00ff00;
+            --feedback-error-bg: #000000;
+            --feedback-error-border: #ff0000;
+            --feedback-error-text: #ff0000;
+        }
+
+        /* --- Global Reset & Layout --- */
+        * { box-sizing: border-box; }
+        
+        body {
+            font-family: var(--font-main);
+            margin: 0;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            transition: background-color var(--transition-speed), color var(--transition-speed);
+            line-height: 1.6;
+        }
+
+        /* --- Header --- */
+        header {
+            background-color: var(--bg-header);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            /* Default to Sticky */
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        /* Class to remove sticky behavior */
+        header.unpinned {
+            position: relative;
+            box-shadow: none;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        header h1 {
+            font-size: 1.25rem;
+            margin: 0;
+            color: var(--text-accent);
+        }
+
+        .controls-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .pin-btn {
+            background: none;
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            cursor: pointer;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: background-color 0.2s;
+        }
+
+        .pin-btn:hover {
+            background-color: var(--highlight-bg);
+        }
+
+        .pin-btn.pin-active {
+            color: var(--text-accent);
+            border-color: var(--text-accent);
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .theme-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        select#theme-select {
+            padding: 6px 12px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-card);
+            color: var(--text-main);
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        /* --- Section Navigation --- */
+        .section-nav {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .section-nav button {
+            background-color: var(--highlight-bg);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .section-nav button:hover {
+            border-color: var(--text-accent);
+            color: var(--text-accent);
+        }
+
+        /* --- Main Content --- */
+        .container {
+            max-width: 850px;
+            margin: 2rem auto;
+            padding: 0 1rem 4rem 1rem;
+        }
+
+        .section-header {
+            margin-top: 3rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--text-accent);
+            color: var(--text-accent);
+            font-size: 1.5rem;
+            font-weight: 700;
+            scroll-margin-top: 140px; /* Offset for sticky header */
+        }
+
+        /* --- Question Card --- */
+        .question-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease;
+        }
+
+        .lo-box {
+            background-color: var(--highlight-bg);
+            border-left: 4px solid var(--text-accent);
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        .question-text {
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        /* --- Options --- */
+        .options-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .option-label {
+            display: flex;
+            align-items: flex-start;
+            padding: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .option-label:hover {
+            background-color: var(--highlight-bg);
+            border-color: var(--text-muted);
+        }
+
+        .option-label input {
+            margin-top: 0.3rem;
+            margin-right: 1rem;
+            accent-color: var(--text-accent);
+            transform: scale(1.2);
+        }
+
+        /* --- Buttons --- */
+        .btn-check {
+            margin-top: 1.5rem;
+            background-color: var(--button-bg);
+            color: var(--button-text);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            font-size: 1rem;
+        }
+
+        .btn-check:hover {
+            opacity: 0.9;
+        }
+
+        /* --- Feedback Area --- */
+        .feedback {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            border-radius: 8px;
+            display: none; /* Hidden by default */
+            border: 1px solid transparent;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .feedback.correct {
+            background-color: var(--feedback-success-bg);
+            border-color: var(--feedback-success-border);
+            color: var(--feedback-success-text);
+        }
+
+        .feedback.incorrect {
+            background-color: var(--feedback-error-bg);
+            border-color: var(--feedback-error-border);
+            color: var(--feedback-error-text);
+        }
+
+        .feedback-header {
+            font-weight: 800;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .rationale {
+            margin-top: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .source {
+            display: block;
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            opacity: 0.8;
+            font-style: italic;
+            border-top: 1px dashed currentColor;
+            padding-top: 0.5rem;
+        }
+
+        /* --- Mobile Tweaks --- */
+        @media (max-width: 600px) {
+            .header-top { flex-direction: column; gap: 10px; align-items: flex-start; }
+            .controls-wrapper { width: 100%; justify-content: space-between; }
+            .question-card { padding: 1.5rem; }
+            header h1 { font-size: 1.1rem; }
+            .section-nav { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <header id="main-header">
+        <div class="header-top">
+            <h1>Week 31 Tuesday Practice Quiz</h1>
+            <div class="controls-wrapper">
+                <!-- Pin Button -->
+                <button class="pin-btn pin-active" id="pin-btn" onclick="toggleHeader()" title="Pin/Unpin Header">
+                    📍
+                </button>
+                
+                <div class="theme-control">
+                    <label for="theme-select">Theme:</label>
+                    <select id="theme-select" onchange="changeTheme(this.value)">
+                        <option value="dark">Modern Dark</option>
+                        <option value="midnight">Midnight</option>
+                        <option value="light">Modern Light</option>
+                        <option value="legacy-dark">Legacy Dark</option>
+                        <option value="sepia">Sepia</option>
+                        <option value="contrast">High Contrast</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <!-- Dynamic Navigation Bar injected via JS -->
+        <div class="section-nav" id="section-nav"></div>
+    </header>
+
+    <div class="container" id="quiz-root">
+        <!-- Content injected via JS -->
+    </div>
+
+    <script>
+        // --- Data ---
+        const quizData = [
+            // --- Section 1: Pulmonary Hypertension ---
+            {
+                section: "Pulmonary Hypertension",
+                maskedLO: "LO1: Understand the vascular components and their functional role in the [specific circulation].",
+                fullLO: "LO1: Understand the vascular components and their functional role in the pulmonary circulation",
+                question: "A 45-year-old man undergoes right heart catheterization. The physician measures pressures across different segments of the pulmonary vascular bed to calculate resistance. Compared to the systemic circulation where resistance is predominantly determined by muscular arterioles, the resistance in the normal pulmonary circulation is distributed differently. Which of the following best describes the distribution of vascular resistance in the pulmonary system?",
+                options: {
+                    A: "Concentrated mainly in the pulmonary veins",
+                    B: "Concentrated mainly in the small muscular pulmonary arteries",
+                    C: "Determined primarily by pre-capillary sphincters",
+                    D: "Distributed equally across arteries, capillaries, and veins",
+                    E: "Localized to the transitional arteries"
+                },
+                correctAnswer: "D",
+                rationale: "In the systemic (aortic) circulation, vascular resistance is predominantly dictated by muscular arterioles. However, in the pulmonary system, the resistance is low and is distributed equally across the arteries, capillaries, and veins.",
+                source: "Pulmonary Hypertension PDF, Slide 3: \"Distribution of resistance: Equal across arteries, capillaries and veins\""
+            },
+            {
+                section: "Pulmonary Hypertension",
+                maskedLO: "LO1: Understand the vascular components and their functional role in the [specific circulation].",
+                fullLO: "LO1: Understand the vascular components and their functional role in the pulmonary circulation",
+                question: "A researcher is studying the histological features of the pulmonary vascular tree in a healthy animal model. She isolates a specific segment of the pulmonary vasculature that is primarily responsible for generating vascular reactivity in response to alveolar hypoxia. Which of the following vascular components was most likely isolated?",
+                options: {
+                    A: "Capillaries",
+                    B: "Elastic arteries",
+                    C: "Muscular arteries",
+                    D: "Non-muscular arterioles",
+                    E: "Pulmonary veins"
+                },
+                correctAnswer: "C",
+                rationale: "Within the pulmonary vascular tree, the muscular arteries are invested with smooth muscle cells that allow them to generate vascular reactivity, such as constricting in response to hypoxia or endothelin.",
+                source: "Pulmonary Hypertension PDF, Slide 14: \"Muscular arteries, invested with smooth muscle cells that generate vascular reactivity (eg. in response to hypoxia, endothelin etc)\""
+            },
+            {
+                section: "Pulmonary Hypertension",
+                maskedLO: "LO2: Recognize the different classes of [condition].",
+                fullLO: "LO2: Recognize the different classes of PH",
+                question: "A 68-year-old man presents with progressive dyspnea on exertion. Echocardiography reveals a reduced left ventricular ejection fraction of 35% and severe mitral regurgitation. Right heart catheterization shows a mean pulmonary artery pressure of 32 mmHg and a pulmonary capillary wedge pressure of 22 mmHg. According to the clinical classification of pulmonary hypertension, this patient's condition belongs to which of the following classes?",
+                options: {
+                    A: "Class 1",
+                    B: "Class 2",
+                    C: "Class 3",
+                    D: "Class 4",
+                    E: "Class 5"
+                },
+                correctAnswer: "B",
+                rationale: "This patient has post-capillary pulmonary hypertension caused by left heart disease (heart failure with reduced ejection fraction and valve disease). This falls under Class 2 PH. Hemodynamically, it is characterized by a mean pulmonary artery pressure >20 mmHg and a pulmonary capillary wedge pressure >15 mmHg.",
+                source: "Pulmonary Hypertension PDF, Slide 8: \"Class 2: PH due to left heart disease. Examples: Heart failure with preserved or reduced LV ejection fraction, valve disease...\""
+            },
+            {
+                section: "Pulmonary Hypertension",
+                maskedLO: "LO2: Recognize the different classes of [condition].",
+                fullLO: "LO2: Recognize the different classes of PH",
+                question: "A 32-year-old woman with a history of systemic sclerosis presents with worsening fatigue and exertional dyspnea. Right heart catheterization demonstrates a mean pulmonary artery pressure of 28 mmHg, a pulmonary capillary wedge pressure of 10 mmHg, and a pulmonary vascular resistance of 5 Wood units. Based on these hemodynamic findings, this patient's condition is best classified as which of the following?",
+                options: {
+                    A: "Combined post-capillary and pre-capillary pulmonary hypertension",
+                    B: "Isolated post-capillary pulmonary hypertension",
+                    C: "Pulmonary arterial hypertension (Class 1)",
+                    D: "Pulmonary hypertension due to lung disease (Class 3)",
+                    E: "Pulmonary hypertension due to pulmonary artery obstruction (Class 4)"
+                },
+                correctAnswer: "C",
+                rationale: "This patient has isolated pre-capillary pulmonary hypertension (mPAP > 20, PAWP &le; 15, PVR &ge; 3), which corresponds to Class 1 Pulmonary Arterial Hypertension (PAH). Connective tissue disease is a known cause of Class 1 PAH.",
+                source: "Pulmonary Hypertension PDF, Slides 8 & 9: \"Isolated precapillary PH (PAH) [Class] 1, 3, 4 and 5... Mean Pulmonary Artery Pressure >20, Pulmonary Capillary Wedge Pressure &le;15, Pulmonary Vascular Resistance &ge;3\" and \"Class 1: Pulmonary arterial hypertension, PAH... Connective tissue disease.\""
+            },
+            {
+                section: "Pulmonary Hypertension",
+                maskedLO: "LO3: Understand the pathophysiological basis of [condition], challenges in diagnosis.",
+                fullLO: "LO3: Understand the pathophysiological basis of PH, challenges in diagnosis",
+                question: "A 40-year-old woman with long-standing, severe idiopathic pulmonary arterial hypertension dies suddenly. Autopsy reveals extensive remodeling of the pulmonary vasculature. Examination of the heart is most likely to show which of the following gross anatomical changes as a maladaptive response to her chronic disease?",
+                options: {
+                    A: "Aortic root dilation",
+                    B: "Left atrial dilation",
+                    C: "Left ventricular hypertrophy",
+                    D: "Mitral valve prolapse",
+                    E: "Right ventricular hypertrophy"
+                },
+                correctAnswer: "E",
+                rationale: "The right ventricle is normally structured for a low-resistance environment. In the setting of pulmonary hypertension, the increased workload leads to right ventricular hypertrophy, which is progressive and can eventually result in right ventricular failure and death (cor pulmonale).",
+                source: "Pulmonary Hypertension PDF, Slide 21: \"Right Ventricle Hypertrophy... Compared to the LV, the RV has a structure best suited for a low resistance environment (low workload), remodeling can be maladaptive... Without treatment, PH can lead to, RV failure and death (Cor Pulmonale)\""
+            },
+            {
+                section: "Pulmonary Hypertension",
+                maskedLO: "LO3: Understand the pathophysiological basis of [condition], challenges in diagnosis.",
+                fullLO: "LO3: Understand the pathophysiological basis of PH, challenges in diagnosis",
+                question: "A 50-year-old man presents to the clinic complaining of exertional dyspnea, fatigue, and occasional lightheadedness over the past six months. Physical examination is unremarkable, and an ECG shows only mild right-axis deviation. The physician suspects pulmonary hypertension. Which of the following tests is mandatory to establish a definitive diagnosis of this condition?",
+                options: {
+                    A: "Cardiopulmonary exercise testing (CPET)",
+                    B: "Computed tomography (CT) of the chest",
+                    C: "Right heart catheterization",
+                    D: "Transthoracic echocardiography",
+                    E: "Ventilation/perfusion (V/Q) lung scan"
+                },
+                correctAnswer: "C",
+                rationale: "While tests like transthoracic echocardiography are important non-invasive screening tools, a right heart catheterization (RHC) is mandatory to confirm the diagnosis of pulmonary hypertension and to fully characterize the hemodynamics.",
+                source: "Pulmonary Hypertension PDF, Slide 24: \"Right heart catheterization (RHC): Mandatory for diagnosis of PH\""
+            },
+
+            // --- Section 2: ARDS & Neonatal Respiratory Distress Syndrome ---
+            {
+                section: "ARDS & Neonatal Respiratory Distress Syndrome",
+                maskedLO: "LO1: Define the [specific respiratory] syndromes.",
+                fullLO: "LO1: Define the syndromes",
+                question: "A 45-year-old man is admitted to the ICU with severe acute pancreatitis. Four days later, he develops severe dyspnea and requires mechanical ventilation. His arterial blood gas reveals a PaO<sub>2</sub> of 55 mmHg on an FiO<sub>2</sub> of 0.6. Chest radiography shows bilateral opacities not fully explained by effusions, collapse, or nodules. Echocardiography reveals normal left ventricular function. This patient's respiratory failure is best defined by which of the following underlying characteristics?",
+                options: {
+                    A: "Acute, diffuse inflammatory disorder causing increased alveolocapillary permeability",
+                    B: "Chronic fibrotic changes of the alveolar wall",
+                    C: "Destruction of alveolar walls and permanent enlargement of airspaces",
+                    D: "Left atrial hypertension causing transudative fluid accumulation",
+                    E: "Primary deficiency of surfactant production by type II pneumocytes"
+                },
+                correctAnswer: "A",
+                rationale: "ARDS is defined as an acute, diffuse, inflammatory disorder characterized by increased pulmonary vascular and epithelial permeability, lung edema, and surfactant inactivation leading to hypoxemia and bilateral opacities. Option E describes neonatal RDS, not adult ARDS.",
+                source: "ARDS & Neonatal Respiratory Distress Syndrome PDF, Slide 11: \"ARDS is an acute, diffuse, inflammatory disorder characterized by: Increase pulmonary vascular and epithelial permeability, Lung edema, Surfactant inactivation...\""
+            },
+            {
+                section: "ARDS & Neonatal Respiratory Distress Syndrome",
+                maskedLO: "LO1: Define the [specific respiratory] syndromes.",
+                fullLO: "LO1: Define the syndromes",
+                question: "A neonate is delivered prematurely at 28 weeks of gestation. Shortly after birth, the infant exhibits severe respiratory distress. The pediatric team diagnoses the infant with Neonatal Respiratory Distress Syndrome (RDS), previously known as Hyaline Membrane Disease. Which of the following accurately defines the primary basis of this syndrome?",
+                options: {
+                    A: "Acute inflammatory lung injury secondary to meconium aspiration",
+                    B: "Dysregulated immune response causing diffuse alveolar damage",
+                    C: "Failure to clear amniotic fluid from the lungs",
+                    D: "Immature lungs with surfactant deficiency preventing optimal gas exchange",
+                    E: "Transient tachypnea resolving spontaneously within 24 hours"
+                },
+                correctAnswer: "D",
+                rationale: "Neonatal RDS is primarily caused by structural immaturity of the lungs combined with a deficiency of surfactant, which prevents optimal gas exchange. This is fundamentally different from ARDS, which is an acute inflammatory injury.",
+                source: "ARDS & Neonatal Respiratory Distress Syndrome PDF, Slide 36: \"What is Neonatal RDS?... It is the result of immature lungs with surfactant deficiency that prevents optimal gas exchange within the lung\""
+            },
+            {
+                section: "ARDS & Neonatal Respiratory Distress Syndrome",
+                maskedLO: "LO2: Understand the etiologic differences between [syndrome A and B].",
+                fullLO: "LO2: Understand the etiologic differences",
+                question: "A 60-year-old man is treated in the intensive care unit for Acute Respiratory Distress Syndrome (ARDS). While ARDS can be caused by direct or indirect lung injury, this patient’s condition developed secondary to the most common indirect cause of ARDS. Which of the following is the most likely inciting etiology in this patient?",
+                options: {
+                    A: "Aspiration of gastric contents",
+                    B: "Fat embolism",
+                    C: "Near drowning",
+                    D: "Sepsis",
+                    E: "Severe acute pancreatitis"
+                },
+                correctAnswer: "D",
+                rationale: "Sepsis is the most common indirect cause of ARDS. This can be recalled using the SPARTAS mnemonic (Septic shock, Pancreatitis/Pneumonia, Aspiration, uRemia, Trauma, Amniotic fluid embolism, Shock).",
+                source: "ARDS & Neonatal Respiratory Distress Syndrome PDF, Slide 20: \"Mnemonic for Etiologies of ARDS: SPARTAS: Septic shock (most common)...\""
+            },
+            {
+                section: "ARDS & Neonatal Respiratory Distress Syndrome",
+                maskedLO: "LO2: Understand the etiologic differences between [syndrome A and B].",
+                fullLO: "LO2: Understand the etiologic differences",
+                question: "A 32-year-old woman gives birth to a male infant at 34 weeks of gestation. The infant develops marked respiratory distress within hours. Which of the following maternal factors most strongly increases the infant's risk for developing neonatal respiratory distress syndrome (RDS)?",
+                options: {
+                    A: "Gestational diabetes",
+                    B: "Group B streptococcal colonization",
+                    C: "Hypertension",
+                    D: "Polyhydramnios",
+                    E: "Premature rupture of membranes"
+                },
+                correctAnswer: "A",
+                rationale: "Risk factors for neonatal RDS include prematurity, multifetal gestation, gestational diabetes, and rare genetic mutations within surfactant-producing genes.",
+                source: "ARDS & Neonatal Respiratory Distress Syndrome PDF, Slide 37: \"What is Neonatal RDS?... Risk factors include: prematurity, multifetal gestation, gestational diabetes, and rare genetic mutations within the surfactant-producing genes.\""
+            },
+            {
+                section: "ARDS & Neonatal Respiratory Distress Syndrome",
+                maskedLO: "LO3: Describe the different pathophysiologies of [the syndromes].",
+                fullLO: "LO3: Describe the different pathophysiologies",
+                question: "A 55-year-old woman develops ARDS following severe pneumonia. Her hypoxemia is profound. Which of the following best describes the primary pathophysiology driving her lung injury and subsequent impaired gas exchange?",
+                options: {
+                    A: "Dysregulated immune response resulting in diffuse alveolar damage",
+                    B: "High left ventricular end-diastolic pressure causing transudation",
+                    C: "Increased surface tension directly due to a primary congenital defect in surfactant protein B",
+                    D: "Obstruction of the upper airway by inflammatory pseudomembranes",
+                    E: "Primary destruction of type I pneumocytes by a circulating autoantibody"
+                },
+                correctAnswer: "A",
+                rationale: "The pathophysiology of ARDS involves lung injury from a dysregulated immune response incited by an alveolar insult. This cascade results in diffuse alveolar damage (DAD), causing increased alveolocapillary permeability and edema.",
+                source: "ARDS & Neonatal Respiratory Distress Syndrome PDF, Slide 23: \"ARDS is characterized by lung injury from a dysregulated immune response incited by some alvelolar insult resulting in diffuse alveolar damage (DAD).\""
+            },
+            {
+                section: "ARDS & Neonatal Respiratory Distress Syndrome",
+                maskedLO: "LO3: Describe the different pathophysiologies of [the syndromes].",
+                fullLO: "LO3: Describe the different pathophysiologies",
+                question: "A premature infant with neonatal RDS requires mechanical ventilation. The pathogenesis of this condition involves Laplace's Law (P = 2T/r). In the absence of adequate surfactant, which of the following pathophysiologic events is most likely to occur?",
+                options: {
+                    A: "Air moves from larger alveoli to smaller alveoli, causing hyperinflation",
+                    B: "Decreased alveolar surface tension leads to increased lung compliance",
+                    C: "Dysregulated systemic inflammation leads to capillary endothelial damage",
+                    D: "Pressure becomes greater in smaller alveoli, driving air into larger alveoli and causing atelectasis",
+                    E: "Proteinaceous edema accumulates due to profound alveolocapillary permeability"
+                },
+                correctAnswer: "D",
+                rationale: "According to Laplace's Law, without surfactant to lower surface tension, the distending pressure required to keep an alveolus open is greater in smaller alveoli. Therefore, air preferentially moves from small, high-pressure alveoli to larger ones, causing the small alveoli to collapse (atelectasis).",
+                source: "ARDS & Neonatal Respiratory Distress Syndrome PDF, Slide 7: \"In the absence of surfactant: the pressure is greater in the small alveolus, air moves from the small, high pressure alveolus to the larger, low pressure one... and the small alveolus more likely collapses (atelectasis).\""
+            },
+            {
+                section: "ARDS & Neonatal Respiratory Distress Syndrome",
+                maskedLO: "LO4: Recognize the clinical presentations of [the syndromes].",
+                fullLO: "LO4: Recognize the clinical presentations",
+                question: "A 60-year-old patient in the ICU is being evaluated for worsening respiratory status. The patient has a high respiratory rate and decreasing oxygen saturation despite receiving supplemental oxygen. A chest radiograph is obtained to rule out cardiogenic pulmonary edema. Which of the following radiographic findings is most characteristic of ARDS?",
+                options: {
+                    A: "Bilateral hilar lymphadenopathy",
+                    B: "Diffuse, bilateral airspace disease without pleural effusions or cardiomegaly",
+                    C: "Hyperinflation with flattened hemidiaphragms",
+                    D: "Large unilateral pleural effusion with mediastinal shift",
+                    E: "Streaky, perihilar linear densities with fluid in the minor fissure"
+                },
+                correctAnswer: "B",
+                rationale: "The classic chest radiograph in ARDS shows diffuse, bilateral airspace disease (infiltrates). Crucially, this typically occurs without significant pleural effusions or cardiomegaly, helping to differentiate it from cardiogenic causes of edema.",
+                source: "ARDS & Neonatal Respiratory Distress Syndrome PDF, Slide 18: \"Chest Radiographs in ARDS... There are diffuse, bilateral airspace disease without pleural effusions or cardiomegaly.\""
+            },
+            {
+                section: "ARDS & Neonatal Respiratory Distress Syndrome",
+                maskedLO: "LO4: Recognize the clinical presentations of [the syndromes].",
+                fullLO: "LO4: Recognize the clinical presentations",
+                question: "A neonate born at 30 weeks of gestation develops rapid breathing within the first hour of life. Physical examination reveals subcostal retractions, grunting, nasal flaring, and cyanosis. A chest radiograph is obtained. Which of the following radiographic findings is most characteristic of this patient's condition?",
+                options: {
+                    A: "Diffuse \"ground-glass\" opacification with air bronchograms",
+                    B: "Focal lobar consolidation in the right lower lobe",
+                    C: "Hyperlucent lung fields with flattened diaphragms",
+                    D: "Prominent vascular markings and cardiomegaly",
+                    E: "Streaky, perihilar linear densities with fluid in the minor fissure"
+                },
+                correctAnswer: "A",
+                rationale: "The clinical presentation is classic for neonatal RDS. The characteristic chest radiograph for neonatal RDS shows diffuse \"ground-glass\" opacification of both lungs with hypoaeration and multiple air bronchograms. Option E describes Transient Tachypnea of the Newborn (TTN).",
+                source: "ARDS & Neonatal Respiratory Distress Syndrome PDF, Slide 39: \"Chest Radiographs in Neonatal RDS... There is diffuse 'ground-glass' opacification of both lungs with air bronchograms and hypoinflation.\""
+            },
+            {
+                section: "ARDS & Neonatal Respiratory Distress Syndrome",
+                maskedLO: "LO5: Describe the medical management of [the syndromes].",
+                fullLO: "LO5: Describe the medical management",
+                question: "A 55-year-old man is mechanically ventilated for severe ARDS secondary to aspiration pneumonia. The critical care team adjusts the ventilator to optimize his oxygenation and limit further lung injury. Which of the following interventions represents the standard of care for treating this patient's ARDS?",
+                options: {
+                    A: "Administration of exogenous endotracheal surfactant",
+                    B: "High-frequency oscillatory ventilation (HFOV)",
+                    C: "High tidal volume ventilation to ensure alveolar expansion",
+                    D: "Inhaled nitric oxide (iNO) therapy",
+                    E: "Low tidal volume ventilation and higher positive end-expiratory pressure (PEEP)"
+                },
+                correctAnswer: "E",
+                rationale: "The medical management of ARDS involves treating the underlying cause and utilizing \"open lung ventilation\" strategies, which include higher PEEP to recruit alveoli and low tidal volume ventilation to minimize barotrauma. Exogenous surfactant is strictly indicated for neonatal RDS, not for ARDS.",
+                source: "ARDS & Neonatal Respiratory Distress Syndrome PDF, Slides 30 & 33: \"ARDS Treatment Strategies... Non-invasive or invasive mechanical ventilation with ‘open lung ventilation’ using: higher positive end-expiratory pressure (PEEP), and low tidal volume ventilation... NO indication for exogenous surfactant!\""
+            },
+            {
+                section: "ARDS & Neonatal Respiratory Distress Syndrome",
+                maskedLO: "LO5: Describe the medical management of [the syndromes].",
+                fullLO: "LO5: Describe the medical management",
+                question: "A premature infant is delivered at 28 weeks gestation and exhibits immediate signs of respiratory distress. The infant is intubated, and the neonatal intensive care team prepares to administer a specific therapy to directly address the underlying pathophysiology. Which of the following is the most appropriate targeted therapy for this patient?",
+                options: {
+                    A: "Exogenous endotracheal surfactant",
+                    B: "High-dose systemic corticosteroids",
+                    C: "Inhaled nitric oxide",
+                    D: "Intravenous broad-spectrum antibiotics",
+                    E: "Permissive hypercapnia without mechanical support"
+                },
+                correctAnswer: "A",
+                rationale: "The primary underlying issue in neonatal RDS is a deficiency in surfactant production. If the infant is in severe distress or requires intubation, the administration of exogenous endotracheal surfactant is indicated.",
+                source: "ARDS & Neonatal Respiratory Distress Syndrome PDF, Slide 45: \"Neonatal RDS Treatment... Exogenous endotracheal surfactant if in severe distress\""
+            },
+
+            // --- Section 3: Pathology of Vascular Infectious Pulmonary Disorders ---
+            {
+                section: "Pathology of Vascular Infectious Pulmonary Disorders",
+                maskedLO: "LO1: Discuss the pathology related to the pulmonary thromboembolus and [associated condition].",
+                fullLO: "LO1: Discuss the pathology related to the pulmonary thromboembolus and infarction",
+                question: "A 65-year-old woman dies suddenly two days after undergoing a total hip replacement. At autopsy, a large, twisted, granular mass with alternating pale and dark layers (lines of Zahn) is found lodged at the bifurcation of the main pulmonary artery. This thromboembolus most likely originated from which of the following anatomic locations?",
+                options: {
+                    A: "Deep veins above the level of the knee",
+                    B: "Left atrium",
+                    C: "Right ventricle",
+                    D: "Superficial saphenous vein",
+                    E: "Upper extremity veins"
+                },
+                correctAnswer: "A",
+                rationale: "95% of pulmonary thromboemboli arise from thrombi in large deep leg veins above the level of the knee, such as the iliac, femoral, and popliteal veins. They generally do not arise from superficial leg veins.",
+                source: "Pathology of Vascular Infectious Pulmonary Disorders PDF, Slide 9: \"Etiology: 95% arise from thrombi in large deep leg veins above the level of the knee. Iliac, femoral, popliteal veins.\""
+            },
+            {
+                section: "Pathology of Vascular Infectious Pulmonary Disorders",
+                maskedLO: "LO1: Discuss the pathology related to the pulmonary thromboembolus and [associated condition].",
+                fullLO: "LO1: Discuss the pathology related to the pulmonary thromboembolus and infarction",
+                question: "A 70-year-old man with congestive heart failure experiences sudden onset of pleuritic chest pain and dyspnea. He dies shortly after from a cardiac arrhythmia. Autopsy reveals a small thromboembolus occluding a peripheral pulmonary artery branch, along with a localized, wedge-shaped area of lung tissue showing coagulative necrosis. Which of the following best describes the gross appearance of this infarcted lung tissue?",
+                options: {
+                    A: "Firm, pale, and avascular",
+                    B: "Liquefactive with abscess formation",
+                    C: "Red and hemorrhagic",
+                    D: "Shrinkage and severe fibrosis",
+                    E: "Yellow with caseous material"
+                },
+                correctAnswer: "C",
+                rationale: "A pulmonary infarction is a localized area of coagulative necrosis resulting from the occlusion of a pulmonary arterial branch. Due to the dual blood supply of the lung (pulmonary and bronchial arteries), the infarct is characteristically hemorrhagic (red, not pale) and wedge-shaped.",
+                source: "Pathology of Vascular Infectious Pulmonary Disorders PDF, Slide 17: \"Definition of Pulmonary Infarction... Localized area of coagulative necrosis... Wedge-shaped. Hemorrhagic (red not pale) secondary to dual blood supply within the lung\""
+            },
+            {
+                section: "Pathology of Vascular Infectious Pulmonary Disorders",
+                maskedLO: "LO2: Compare and contrast reversible versus irreversible pulmonary arterial changes related to the pathology of [condition].",
+                fullLO: "LO2: Compare and contrast reversible versus irreversible pulmonary arterial changes related to the pathology of pulmonary hypertension",
+                question: "A 35-year-old woman is evaluated for exertional dyspnea and found to have pulmonary arterial hypertension secondary to an uncorrected atrial septal defect. A lung biopsy is performed to assess the extent of vascular remodeling. Which of the following histopathologic findings in the small pulmonary arteries represents an early, potentially reversible change?",
+                options: {
+                    A: "Acute necrotizing arteritis",
+                    B: "Complete occlusive stenosis",
+                    C: "Medial hypertrophy",
+                    D: "Plexiform lesions",
+                    E: "Vascular dilatation"
+                },
+                correctAnswer: "C",
+                rationale: "The morphologic progression of pulmonary hypertension begins with early, reversible arterial changes. These consist of medial hypertrophy and intimal hyperplasia. Irreversible, later changes include occlusive stenosis, dilatation, plexiform lesions, and acute necrotizing arteritis.",
+                source: "Pathology of Vascular Infectious Pulmonary Disorders PDF, Slide 19: \"Morphology: Reversible (Early arterial changes) - I. Medial hypertrophy, II. Intimal hyperplasia\""
+            },
+            {
+                section: "Pathology of Vascular Infectious Pulmonary Disorders",
+                maskedLO: "LO2: Compare and contrast reversible versus irreversible pulmonary arterial changes related to the pathology of [condition].",
+                fullLO: "LO2: Compare and contrast reversible versus irreversible pulmonary arterial changes related to the pathology of pulmonary hypertension",
+                question: "A 42-year-old woman with long-standing idiopathic pulmonary arterial hypertension undergoes lung transplantation. Histopathologic examination of her explanted native lungs reveals numerous small pulmonary arteries with glomeruloid-like structures formed by aberrant angiogenesis. These irreversible vascular changes are best described as:",
+                options: {
+                    A: "Caseating granulomas",
+                    B: "Intimal hyperplasia",
+                    C: "Medial hypertrophy",
+                    D: "Plexiform lesions",
+                    E: "Suppurative microabscesses"
+                },
+                correctAnswer: "D",
+                rationale: "Plexiform lesions are a hallmark of later, irreversible arterial changes in severe pulmonary hypertension. They present as glomeruloid lesions resulting from aberrant angiogenesis arising within a branch of a small pulmonary artery.",
+                source: "Pathology of Vascular Infectious Pulmonary Disorders PDF, Slides 15 & 19: \"Irreversible (Later arterial changes)... V. Plexiform lesions... Note the glomeruloid lesion due to aberrant angiogenesis arising within a branch of small supernumerary pulmonary artery\""
+            },
+            {
+                section: "Pathology of Vascular Infectious Pulmonary Disorders",
+                maskedLO: "LO3: Discuss the pathology of pulmonary hemorrhage in [specific syndrome].",
+                fullLO: "LO3: Discuss the pathology of pulmonary hemorrhage in Goodpasture syndrome",
+                question: "A 24-year-old man presents to the emergency department with hemoptysis and progressive shortness of breath. Over the next two weeks, he develops acute renal failure. A transbronchial lung biopsy reveals diffuse alveolar hemorrhage. The pathogenesis of this patient's syndrome involves autoantibodies directed against which of the following structures?",
+                options: {
+                    A: "Alveolar macrophage receptors",
+                    B: "Basement membranes of the alveolar septa and renal glomeruli",
+                    C: "Desmosomes of the alveolar epithelium",
+                    D: "Endothelial cell surface antigens",
+                    E: "Type II pneumocyte surfactant proteins"
+                },
+                correctAnswer: "B",
+                rationale: "Goodpasture syndrome typically affects young men and presents with hemoptysis followed by renal failure. It is caused by circulating cytotoxic autoantibodies directed against the basement membranes in the alveolar septa of the lungs and the glomeruli of the kidneys.",
+                source: "Pathology of Vascular Infectious Pulmonary Disorders PDF, Slide 23: \"Goodpasture syndrome: Secondary to circulating cytotoxic autoantibody to basement membranes in alveolar septa of lungs and glomeruli of kidneys... Found primarily in young men presenting with hemoptysis followed by renal failure\""
+            },
+            {
+                section: "Pathology of Vascular Infectious Pulmonary Disorders",
+                maskedLO: "LO3: Discuss the pathology of pulmonary hemorrhage in [specific syndrome].",
+                fullLO: "LO3: Discuss the pathology of pulmonary hemorrhage in Goodpasture syndrome",
+                question: "A 28-year-old man is admitted with severe hemoptysis and renal failure. A renal biopsy shows crescentic glomerulonephritis, and a lung biopsy shows intra-alveolar hemorrhage. Direct immunofluorescence staining of the biopsy specimens is ordered. Which of the following immunofluorescence patterns is most characteristic of the underlying pathogenesis of this syndrome?",
+                options: {
+                    A: "Granular deposition of IgA",
+                    B: "Linear fluorescence",
+                    C: "Lumpy-bumpy deposition of immune complexes",
+                    D: "Negative immunofluorescence (pauci-immune)",
+                    E: "Speckled deposition of IgM"
+                },
+                correctAnswer: "B",
+                rationale: "In Goodpasture syndrome, anti-basement membrane autoantibodies bind directly and uniformly to the basement membranes of the lungs and kidneys. This results in a classic smooth, continuous, linear fluorescence pattern on immunofluorescence.",
+                source: "Pathology of Vascular Infectious Pulmonary Disorders PDF, Slide 25: \"Pulmonary hemorrhage associated with Goodpasture syndrome is related to anti-basement membrane antibody producing linear fluorescence in lung and kidneys\""
+            }
+        ];
+
+        // --- Core Logic ---
+        const quizRoot = document.getElementById('quiz-root');
+        const themeSelect = document.getElementById('theme-select');
+        const pinBtn = document.getElementById('pin-btn');
+        const mainHeader = document.getElementById('main-header');
+        const sectionNav = document.getElementById('section-nav');
+
+        function initQuiz() {
+            // Render Questions
+            let currentSection = "";
+            let sectionIndex = 0;
+            
+            quizData.forEach((item, index) => {
+                // Insert Section Header if needed
+                if (item.section !== currentSection) {
+                    currentSection = item.section;
+                    
+                    // Create ID for scrolling
+                    const sectionId = 'sec-' + sectionIndex;
+                    
+                    // Add Section Header
+                    const sectionHeader = document.createElement('h2');
+                    sectionHeader.className = 'section-header';
+                    sectionHeader.id = sectionId;
+                    sectionHeader.textContent = currentSection;
+                    quizRoot.appendChild(sectionHeader);
+
+                    // Add Nav Button dynamically
+                    const navBtn = document.createElement('button');
+                    // Abbreviate longer titles for the buttons if desired, or keep as is.
+                    let btnText = currentSection;
+                    if (btnText.includes("Pathology of Vascular")) btnText = "Pathology of Vascular...";
+                    if (btnText.includes("ARDS & Neonatal Respiratory Distress Syndrome")) btnText = "ARDS & Neonatal RDS";
+                    
+                    navBtn.textContent = btnText;
+                    navBtn.onclick = () => {
+                        document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
+                    };
+                    sectionNav.appendChild(navBtn);
+
+                    sectionIndex++;
+                }
+
+                // Create Card
+                const card = document.createElement('div');
+                card.className = 'question-card';
+                card.id = `q-card-${index}`;
+
+                // Learning Objective (Masked)
+                const loBox = document.createElement('div');
+                loBox.className = 'lo-box';
+                loBox.id = `lo-${index}`;
+                loBox.innerHTML = item.maskedLO;
+                card.appendChild(loBox);
+
+                // Question Text
+                const qText = document.createElement('div');
+                qText.className = 'question-text';
+                qText.innerHTML = `${index + 1}. ${item.question}`;
+                card.appendChild(qText);
+
+                // Options Container
+                const optionsGrid = document.createElement('div');
+                optionsGrid.className = 'options-grid';
+
+                for (const [key, value] of Object.entries(item.options)) {
+                    const label = document.createElement('label');
+                    label.className = 'option-label';
+                    
+                    const input = document.createElement('input');
+                    input.type = 'radio';
+                    input.name = `question-${index}`;
+                    input.value = key;
+
+                    const span = document.createElement('span');
+                    // Retain letters: A. Option Text
+                    span.innerHTML = `${key}. ${value}`;
+
+                    label.appendChild(input);
+                    label.appendChild(span);
+                    optionsGrid.appendChild(label);
+                }
+                card.appendChild(optionsGrid);
+
+                // Check Button
+                const btn = document.createElement('button');
+                btn.className = 'btn-check';
+                btn.textContent = 'Check Answer';
+                btn.onclick = () => checkAnswer(index);
+                card.appendChild(btn);
+
+                // Feedback Container
+                const feedback = document.createElement('div');
+                feedback.className = 'feedback';
+                feedback.id = `feedback-${index}`;
+                card.appendChild(feedback);
+
+                quizRoot.appendChild(card);
+            });
+
+            // Load saved theme
+            const savedTheme = localStorage.getItem('quizTheme') || 'dark';
+            changeTheme(savedTheme);
+            themeSelect.value = savedTheme;
+
+            // Load saved pin state
+            const savedPinState = localStorage.getItem('headerPinned');
+            // Default to true (pinned) if not set or if set to true
+            if (savedPinState === 'false') {
+                toggleHeader(false); 
+            } else {
+                toggleHeader(true);
+            }
+        }
+
+        function checkAnswer(index) {
+            const selected = document.querySelector(`input[name="question-${index}"]:checked`);
+            const feedbackEl = document.getElementById(`feedback-${index}`);
+            const loEl = document.getElementById(`lo-${index}`);
+            const data = quizData[index];
+
+            if (!selected) {
+                alert("Please select an answer.");
+                return;
+            }
+
+            // Reveal LO
+            loEl.innerHTML = data.fullLO;
+
+            // Generate Feedback HTML
+            const isCorrect = selected.value === data.correctAnswer;
+            
+            let html = `<span class="feedback-header">${isCorrect ? "Correct!" : "Incorrect"}</span>`;
+            if (!isCorrect) {
+                html += `<div>The correct answer is <strong>${data.correctAnswer}</strong>.</div>`;
+            }
+            
+            html += `<div class="rationale"><strong>Rationale:</strong> ${data.rationale}</div>`;
+            html += `<div class="source"><strong>Source:</strong> ${data.source}</div>`;
+
+            feedbackEl.innerHTML = html;
+            feedbackEl.className = `feedback ${isCorrect ? 'correct' : 'incorrect'}`;
+            feedbackEl.style.display = 'block';
+        }
+
+        function changeTheme(themeName) {
+            document.documentElement.setAttribute('data-theme', themeName);
+            localStorage.setItem('quizTheme', themeName);
+        }
+
+        function toggleHeader(forceState) {
+            // Determine current state based on class presence
+            const isCurrentlyPinned = !mainHeader.classList.contains('unpinned');
+            
+            // If forceState is provided (boolean), use it. Otherwise toggle current state.
+            const newState = (typeof forceState === 'boolean') ? forceState : !isCurrentlyPinned;
+
+            if (newState) {
+                // Pin
+                mainHeader.classList.remove('unpinned');
+                pinBtn.classList.add('pin-active');
+                localStorage.setItem('headerPinned', 'true');
+            } else {
+                // Unpin
+                mainHeader.classList.add('unpinned');
+                pinBtn.classList.remove('pin-active');
+                localStorage.setItem('headerPinned', 'false');
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', initQuiz);
+
+    </script>
+</body>
+</html>
